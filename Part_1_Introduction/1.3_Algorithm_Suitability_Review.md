@@ -1,0 +1,110 @@
+# 1.3 Algorithm Suitability Review
+
+To address the problem of finding the fastest evacuation route through a post-landslide road network, several algorithm design paradigms were evaluated for their suitability. Each is assessed based on its ability to solve weighted single-source shortest path problems on a sparse, undirected graph.
+
+---
+
+## Sorting Algorithms
+
+**Strengths:**
+- Simple and fast (O(n log n) for comparison-based sorting).
+- Useful as a preprocessing step — e.g., sorting edges by weight for other algorithms.
+- Can quickly identify the single lightest edge or the lightest adjacent road from the hospital.
+
+**Weaknesses:**
+- Sorting alone cannot find a shortest **path** — it can rank edges, but has no mechanism to aggregate paths across multiple hops.
+- It cannot model cumulative travel time through a sequence of connected roads.
+- Does not respect the graph's topology — sorting edges independently ignores connectivity.
+
+**Conclusion:** Not suitable as a standalone solution for finding the shortest evacuation route.
+
+---
+
+## Divide and Conquer (DAC)
+
+**Strengths:**
+- Effective at breaking large problems into smaller independent subproblems.
+- Used in algorithms like Merge Sort and Binary Search.
+- Could theoretically partition the road network into sub-regions for parallel processing.
+
+**Weaknesses:**
+- Shortest path problems involve **overlapping subproblems** with shared state (distances to intermediate nodes). DAC assumes subproblems are independent, which they are not here.
+- Merging sub-solutions from partitioned graph halves is non-trivial and may miss cross-partition optimal paths.
+- No standard DAC shortest path algorithm exists for general weighted graphs.
+
+**Conclusion:** Not well-suited for single-source shortest path in a general weighted graph.
+
+---
+
+## Dynamic Programming (DP)
+
+**Strengths:**
+- Handles overlapping subproblems and optimal substructure — both properties that shortest paths possess (Bellman's principle of optimality).
+- Bellman-Ford is a DP-based shortest path algorithm that handles negative edge weights.
+- Systematic and provably correct.
+
+**Weaknesses:**
+- Bellman-Ford (a DP approach) runs in O(VE) time — significantly slower than Dijkstra's O((V + E) log V) for graphs with non-negative weights.
+- The overhead of DP table construction is unnecessary when edge weights are all non-negative (as in our scenario — travel times cannot be negative).
+- Memory usage for DP tables can become significant on dense graphs.
+
+**Conclusion:** DP (via Bellman-Ford) is correct but less efficient than Dijkstra's Algorithm for this specific scenario, where all weights are non-negative travel times.
+
+---
+
+## Greedy Algorithms
+
+**Strengths:**
+- Simple and fast — make locally optimal choices at each step.
+- Dijkstra's Algorithm is itself a **greedy algorithm** that always extends the shortest known path next.
+- Works well when the greedy choice leads to globally optimal outcomes (as it does for non-negative weighted shortest paths).
+
+**Weaknesses:**
+- Greedy approaches **do not always yield globally optimal solutions** — for instance, a greedy road selection based only on the shortest next segment (without considering the full path) could lead to a dead end or longer total route.
+- A naïve greedy approach (always take the shortest adjacent road) is not the same as Dijkstra's Algorithm and is not guaranteed to be optimal.
+
+**Conclusion:** Dijkstra's Algorithm — which formalises greedy selection with a priority queue and cumulative distance tracking — is the optimal greedy approach for this problem.
+
+---
+
+## Graph Algorithms
+
+**Strengths:**
+- Directly model the road network as a graph G = (V, E) with weighted edges.
+- Dijkstra's Algorithm (graph algorithm) solves the single-source shortest path problem optimally for non-negative weights in O((V + E) log V) time with a min-priority queue.
+- BFS solves unweighted shortest path; Dijkstra solves weighted — perfectly matching our scenario.
+- Floyd-Warshall computes all-pairs shortest paths if multiple simultaneous evacuation scenarios are needed.
+- The graph representation naturally encodes road junctions (vertices), roads (edges), and travel times (weights).
+
+**Weaknesses:**
+- Graph algorithms require the problem to be modelled correctly as a graph — missing or incorrect edge weights lead to wrong results.
+- Dijkstra's Algorithm does not support negative edge weights (not an issue here since travel time is always non-negative).
+- For very large road networks (thousands of nodes), more advanced algorithms (A*, bidirectional Dijkstra) may be preferred for speed.
+
+**Conclusion:** **Graph algorithms — specifically Dijkstra's Algorithm — are the most suitable solution paradigm for this problem.**
+
+---
+
+## Summary Table
+
+| Algorithm Paradigm | Handles Weighted Graph? | Guarantees Optimal Path? | Time Complexity | Suitable? |
+|---|---|---|---|---|
+| Sorting | No | No | O(n log n) | ❌ No |
+| Divide & Conquer | Partially | No | Varies | ❌ No |
+| Dynamic Programming (Bellman-Ford) | Yes | Yes | O(VE) | ⚠️ Slower |
+| Greedy (naïve) | Partially | No | O(E) | ❌ Not optimal |
+| **Graph — Dijkstra's Algorithm** | **Yes** | **Yes** | **O((V+E) log V)** | **✅ Best Choice** |
+
+---
+
+## Dijkstra's Algorithm: The Optimised Choice
+
+For the landslide medical evacuation scenario, **Dijkstra's Algorithm** is the most effective approach because:
+
+1. The problem is naturally modelled as a weighted graph (road junctions as vertices, road segments as edges, travel time as weights).
+2. All edge weights (travel times) are non-negative — the fundamental requirement for Dijkstra's correctness.
+3. It guarantees the globally shortest (fastest) path from the hospital to the village, not just a locally optimal one.
+4. It runs efficiently — O((V + E) log V) with a priority queue — fast enough for real-time emergency dispatch.
+5. It systematically evaluates all possible routes through the surviving road network, leaving nothing to chance.
+
+While Dynamic Programming (Bellman-Ford) is also correct, it is unnecessarily slow for this scenario. Dijkstra's Algorithm is the industry-standard choice for non-negative weighted shortest path problems and is the optimal selection here.

@@ -1,0 +1,31 @@
+# 1.2 Importance of Finding an Optimal Solution
+
+Finding an optimal shortest path solution for this landslide medical evacuation scenario is critically important for several interconnected reasons:
+
+## 1. Life-Critical Time Constraints
+
+In cardiac emergencies, survival rates drop by **7–10% for every minute** that passes without defibrillation or reperfusion therapy (Holmberg et al., 2001). The Malaysian Ministry of Health mandates an ambulance response time target of under 8 minutes for urban areas and under 14 minutes for rural areas. Post-landslide, with the primary road blocked, an unoptimised detour through logging roads could easily waste 20–30 extra minutes. An algorithm-verified fastest route eliminates guesswork and ensures the detour is as short as it can mathematically be.
+
+## 2. Disaster Conditions Increase Route Complexity
+
+Under normal conditions, a dispatcher might rely on memory or a paper map. Under a landslide scenario at 3 AM, with radio communications partially disrupted and some roads newly blocked, the number of potential route combinations through secondary logging tracks may exceed what a human can evaluate in seconds. A graph-based algorithm processes every surviving road segment simultaneously and guarantees no optimal path is overlooked.
+
+## 3. Reproducibility and Consistency of Decision-Making
+
+An algorithmic solution produces the same optimal result every time it is run with the same input. This is crucial in disaster management, where decisions must be defensible, auditable, and free from the cognitive biases that affect humans under stress. Emergency commanders can trust the algorithm's output to coordinate multiple response vehicles optimally across the same damaged road network.
+
+## 4. Scalability for Mass Casualty Events
+
+A single landslide may injure multiple residents simultaneously. Dijkstra's Algorithm can be re-run from different source nodes (different evacuation points) to the same destination (hospital) within milliseconds, allowing dispatchers to plan multiple simultaneous evacuation routes across the same network without repeating manual calculations.
+
+## 5. Resource Allocation and Pre-Disaster Planning
+
+Beyond the immediate crisis, the algorithm can be applied **proactively**. Emergency planners can pre-compute shortest routes for various landslide scenarios (different road blockage patterns) and have contingency maps ready. This supports the Malaysian Civil Defence Department (APM) and BOMBA in developing more effective Standard Operating Procedures (SOPs) for highland community evacuations.
+
+## 6. Alignment with National Disaster Management Policy
+
+Malaysia's National Disaster Management Policy (NDMP) emphasises the use of technology and data-driven approaches to reduce disaster risk and improve emergency response. Embedding an optimal path algorithm into ambulance dispatch systems directly supports this policy objective and can serve as a replicable model for rural communities throughout Peninsular Malaysia and Sabah/Sarawak.
+
+---
+
+In summary, the difference between the **optimal route** and a **suboptimal route** in this scenario is not merely a matter of efficiency — it can be the difference between life and death. This is precisely why finding an optimal, algorithm-verified solution is of paramount importance.
