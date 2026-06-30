@@ -1,35 +1,24 @@
 import java.util.*;
 
-/**
- * CSC4202 Group Project — Semester 2, 2025/2026
- * Landslide Medical Evacuation Route Optimiser
- * Algorithm : Dijkstra's Shortest Path Algorithm (Graph Paradigm)
- * Scenario : Post-landslide ambulance routing, Hulu Selangor, Malaysia
- *
- * Problem: A landslide has blocked the main highway.
- * Find the fastest alternate route through secondary logging roads
- * from Hospital Kuala Kubu Bharu (Node 0) to Kampung Sungai Lui (Node 7).
- */
+
 public class LandslideEvacuation {
 
     /** Human-readable names for each node (road junction / landmark). */
     static final String[] NODE_NAMES = {
-            "Hospital Kuala Kubu Bharu", // 0 <-- SOURCE
-            "Pekan KKB Town Junction", // 1
-            "Simpang Empat Batang Kali Fork", // 2
-            "Sungai Chilling Forest Reserve", // 3
-            "Ladang Ulu Bernam (Plantation)", // 4
-            "Pos Gertak (Orang Asli Settlement)", // 5
-            "Hulu Bernam Highlands Crossroad", // 6
-            "Kampung Sungai Lui" // 7 <-- DESTINATION
+            "Hospital Kuala Kubu Bharu", 
+            "Pekan KKB Town Junction", 
+            "Simpang Empat Batang Kali Fork", 
+            "Sungai Chilling Forest Reserve", 
+            "Ladang Ulu Bernam (Plantation)", 
+            "Pos Gertak (Orang Asli Settlement)", 
+            "Hulu Bernam Highlands Crossroad", 
+            "Kampung Sungai Lui" 
     };
 
-    // ─────────────────────────────────────────────────────────────────
-    // Graph: weighted undirected adjacency list
-    // ─────────────────────────────────────────────────────────────────
+    
     static class Graph {
         int V;
-        List<int[]>[] adj; // adj[u] = list of {v, weight}
+        List<int[]>[] adj; 
 
         @SuppressWarnings("unchecked")
         Graph(int vertices) {
@@ -39,7 +28,7 @@ public class LandslideEvacuation {
                 adj[i] = new ArrayList<>();
         }
 
-        /** Add an undirected edge (u -- v) with travel time 'weight' minutes. */
+
         void addEdge(int u, int v, int weight) {
             adj[u].add(new int[] { v, weight });
             adj[v].add(new int[] { u, weight });
